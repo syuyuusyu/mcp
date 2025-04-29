@@ -1,4 +1,4 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from utils.db_pool import DbConnectionPool
 from utils.db_client import DbClient
 mcp = FastMCP("prompt_cache")

@@ -84,6 +84,30 @@ class DbClient:
                 self.connection.close()
                 self.connection = None
 
+    def execute(self, sql, params=None):
+        """
+        执行任意 SQL 语句，返回受影响的行数。
+        主要用于执行 DDL 语句或其他不返回结果集的语句。
+
+        Args:
+            sql (str): SQL 语句
+            params (dict, optional): 查询参数
+
+        Returns:
+            int: 受影响的行数
+        """
+        try:
+            self.connection = self.engine.connect()
+            if params:
+                result = self.connection.execute(text(sql), params)
+            else:
+                result = self.connection.execute(text(sql))
+            return result.rowcount
+        finally:
+            if self.connection:
+                self.connection.close()
+                self.connection = None
+
     def __enter__(self):
         return self
 

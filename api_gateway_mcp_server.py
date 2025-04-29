@@ -1,6 +1,6 @@
 import httpx
 from typing import Dict, Any, Optional
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 mcp = FastMCP("mcp_api_getway")
 
