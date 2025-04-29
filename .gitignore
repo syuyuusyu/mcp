@@ -1,0 +1,7 @@
+# Ignore all __pycache__ directories
+__pycache__/
+*.__pycache__/
+cache/
+logs/
+.DS_Store
+*..DS_Store
