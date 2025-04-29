@@ -12,14 +12,7 @@ db_config = {
 }
 db_pool = DbConnectionPool(db_config)
 db_client = DbClient(db_pool)
-print(db_client.query("SELECT DATABASE();"))
-try:
-    kknd = db_client.insert("INSERT INTO prompt_cache (name, content) VALUES (:name, :content)",{"name": "kknd", "content": "kknd"}) 
-    print(kknd)
-except Exception as e:
-    print(e)
-sd = db_client.query("SELECT * FROM prompt_cache")
-print(sd)
+
 @mcp.tool()
 async def save_prompt_cache(prompt_name: str, prompt_content: str) -> str:
     """
