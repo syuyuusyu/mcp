@@ -20,3 +20,5 @@ db_client = DbClient(db_pool)
 
 sd = db_client.query("SELECT * FROM prompt_cache")
 print(sd)
+
+

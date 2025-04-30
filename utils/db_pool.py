@@ -19,13 +19,21 @@ class DbConnectionPool:
         self.engine = create_engine(
             connection_string,
             poolclass=QueuePool,
-            pool_size=1,  # 连接池大小
-            max_overflow=2,  # 允许的最大溢出连接
-            pool_timeout=30,  # 获取连接的超时时间
-            pool_pre_ping=True,  # 启用连接池心跳检测
-            pool_recycle=3600,  # 连接回收时间（秒）
-            pool_use_lifo=True,  # 使用LIFO策略，优先使用最近使用的连接
-            isolation_level='AUTOCOMMIT' 
+            pool_size=2,  # 减少基础连接池大小到2
+            max_overflow=1,  # 最多允许1个额外连接
+            pool_timeout=30,  # 获取连接超时时间
+            pool_pre_ping=True,  # 保持启用连接池心跳检测
+            pool_recycle=600,  # 减少连接回收时间到10分钟，保持连接新鲜
+            pool_use_lifo=True,  # 保持使用LIFO策略，优先复用最近的连接
+            isolation_level='AUTOCOMMIT',
+            # 优化连接参数，增加稳定性
+            connect_args={
+                'connect_timeout': 20,  # 增加连接超时时间，确保能建立连接
+                'read_timeout': 60,     # 增加读取超时时间，避免长查询断开
+                'write_timeout': 30,    # 写入超时保持不变
+                'keepalive': True,      # 启用 TCP keepalive
+                'keepalive_delay': 60   # 空闲60秒后开始发送keepalive包
+            }
         )
 
     def get_engine(self):
