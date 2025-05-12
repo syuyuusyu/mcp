@@ -30,9 +30,7 @@ class DbConnectionPool:
             connect_args={
                 'connect_timeout': 20,  # 增加连接超时时间，确保能建立连接
                 'read_timeout': 60,     # 增加读取超时时间，避免长查询断开
-                'write_timeout': 30,    # 写入超时保持不变
-                'keepalive': True,      # 启用 TCP keepalive
-                'keepalive_delay': 60   # 空闲60秒后开始发送keepalive包
+                'write_timeout': 30     # 写入超时保持不变
             }
         )
 

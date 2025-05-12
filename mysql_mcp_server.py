@@ -22,58 +22,6 @@ db_client = DbClient(db_pool)
 
 
 
-@mcp.tool()
-async def search_order(
-    order_id: Optional[str] = None,
-    merchant_name: Optional[str] = None,
-    transaction_time: Optional[str] = None,
-    amount: Optional[float] = None
-) -> List[Dict[str, Any]]:
-    """
-    搜索订单信息
-    
-    Args:
-        order_id: 订单号
-        merchant_name: 商户名称
-        transaction_time: 交易时间（格式：YYYY-MM-DD HH:mm:ss）
-        amount: 交易金额
-    Returns:
-        订单信息列表
-    """
-    conditions = []
-    params = {}
-    
-    if order_id:
-        conditions.append("order_id = :order_id")
-        params["order_id"] = order_id
-        
-    if merchant_name:
-        conditions.append("merchant_name LIKE :merchant_name")
-        params["merchant_name"] = f"%{merchant_name}%"
-        
-    if transaction_time:
-        conditions.append("transaction_time = :transaction_time")
-        params["transaction_time"] = transaction_time
-        
-    if amount:
-        conditions.append("amount = :amount")
-        params["amount"] = amount
-        
-    if not conditions:
-        raise ValueError("至少需要提供一个搜索条件")
-        
-    sql = f"""
-    SELECT 
-        order_id,
-        merchant_name,
-        transaction_time,
-        amount,
-        status
-    FROM orders
-    WHERE {' AND '.join(conditions)}
-    """
-    
-    return db_client.query(sql, params)
 
 @mcp.tool()
 async def list_databases(random_string: str) -> List[str]:
